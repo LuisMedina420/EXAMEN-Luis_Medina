@@ -1,6 +1,8 @@
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 
+LIMITE_UNIDADES_ESTUDIANTE = 10
+
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
@@ -39,3 +41,18 @@ class SaleOrder(models.Model):
                 body=f"Se aplicó el {order.convenio_id.name} "
                 f"con {order.convenio_id.porcentaje:g} % de descuento."
             )
+
+    def action_confirm(self):
+        for order in self:
+            if order.tipo_cliente == "estudiante":
+                # TODO: sumar las cantidades (product_uom_qty) de las líneas de
+                # producto. Si superan LIMITE_UNIDADES_ESTUDIANTE, lanzar UserError
+                # con un mensaje que indique el límite y el total del pedido.
+                lineas_producto = order.order_line.filtered(lambda line: not line.display_type)
+                total_unidades = sum(lineas_producto.mapped("product_uom_qty"))
+                if total_unidades > LIMITE_UNIDADES_ESTUDIANTE:
+                    raise UserError(
+                        f"El pedido supera el límite permitido para estudiantes ({LIMITE_UNIDADES_ESTUDIANTE} unidades). "
+                        f"Total del pedido: {total_unidades:g} unidades."
+                    )
+        return super().action_confirm()

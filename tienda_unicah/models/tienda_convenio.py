@@ -1,4 +1,5 @@
-from odoo import fields, models
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 from .res_partner import TIPOS_CLIENTE
 
@@ -13,3 +14,21 @@ class TiendaConvenio(models.Model):
     fecha_inicio = fields.Date(string="Desde", required=True, default=fields.Date.context_today)
     fecha_fin = fields.Date(string="Hasta")
     active = fields.Boolean(string="Activo", default=True)
+
+    @api.constrains("porcentaje", "fecha_inicio", "fecha_fin")
+    def _check_convenio(self):
+        for convenio in self:
+            # TODO 1: el porcentaje debe ser mayor que 0 y no superar 40.
+            if convenio.porcentaje <= 0 or convenio.porcentaje > 40:
+                raise ValidationError(
+                    "El porcentaje de descuento debe ser mayor que 0 y no superar el 40 %."
+                )
+            # TODO 2: si hay fecha final, no puede ser anterior a la fecha inicial.
+            if (
+                convenio.fecha_fin
+                and convenio.fecha_inicio
+                and convenio.fecha_fin < convenio.fecha_inicio
+            ):
+                raise ValidationError(
+                    "La fecha final no puede ser anterior a la fecha inicial."
+                )
