@@ -1,7 +1,7 @@
 # Examen II Parcial — Programación de Negocios (UNICAH)
 
 - **Estudiante:** Luis Medina
-- **Número de cuenta:** 0801200012 *(actualizar si aplica otro número de cuenta)*
+- **Número de cuenta:** 0806200300590
 
 ## Contenido del repositorio
 
