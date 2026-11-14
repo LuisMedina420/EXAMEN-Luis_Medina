@@ -1,0 +1,3 @@
+id,name,model_id,group_id/id,operation,domain
+access_unicah_beca_vendedor,unicah.beca vendedor,unicah.beca,sales_team.group_sale_salesman,r,
+access_unicah_beca_admin,unicah.beca admin,unicah.beca,sales_team.group_sale_manager,crud,

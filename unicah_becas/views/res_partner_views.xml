@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_unicah_becas" model="ir.ui.view">
+        <field name="name">res.partner.form.unicah.becas</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="tienda_unicah.view_partner_form_tienda_unicah"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='unicah']/group" position="inside">
+                <field name="tiene_beca_activa" invisible="tipo_cliente != 'estudiante'"/>
+            </xpath>
+            <xpath expr="//page[@name='unicah']" position="inside">
+                <field name="beca_ids" invisible="tipo_cliente != 'estudiante'" readonly="1">
+                    <list>
+                        <field name="name"/>
+                        <field name="periodo"/>
+                        <field name="tipo_beca"/>
+                        <field name="indice_academico"/>
+                        <field name="porcentaje_beca"/>
+                        <field name="monto_descuento"/>
+                        <field name="pago_neto"/>
+                        <field name="estado"/>
+                    </list>
+                </field>
+            </xpath>
+        </field>
+    </record>
+</odoo>
